@@ -718,23 +718,23 @@
     <!-- Back to Top End -->
 
     <!-- All Javascript Plugins  -->
-      <script type="text/javascript">
-        //This is the "Offline copy of pages" service worker
-        //Add this below content to your HTML page, or add the js file to your page at the very top to register sercie worker
-        if('serviceWorker' in navigator) {
-          navigator.serviceWorker.register('/sw.js')
-          .then(function() {
-            console.log('SW Registered');
-          });
-        }
-      </script>
-
       <script type="text/javascript" src="js/jquery.min.js"></script>
       <script type="text/javascript" src="js/plugin.js"></script>
 
       <!-- Main Javascript File  -->
 
       <!-- Service Worker Registration -->
+      <script type="text/javascript">
+        //This is the "Offline copy of pages" service worker
+        //Add this below content to your HTML page, or add the js file to your page at the very top to register sercie worker
+        if('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('sw.js')
+          .then(function() {
+            console.log('SW Registered');
+          });
+        }
+
+      </script>
 
       <script type="text/javascript" src="js/scripts.js"></script>
 
@@ -751,7 +751,7 @@
         };
         var particleCanvas = new ParticleNetwork(canvasDiv, options);
       </script>
-      <!-- <script type="text/javascript">
+      <script type="text/javascript">
         function submitForm(event) {
           var datastring = $("#contactUsForm").serialize();
           $.ajax({
@@ -763,6 +763,6 @@
               }
           });
         }
-      </script> -->
+      </script>
   </body>
   </html>
