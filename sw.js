@@ -1,42 +1,44 @@
-//This is the "Offline copy of pages" wervice worker
 
-//Install stage sets up the index page (home page) in the cahche and opens a new cache
-self.addEventListener('install', function(event) {
-  var indexPage = new Request('index.html');
+self.addEventListener('install', function (event) {
+  console.log('SW installed');
   event.waitUntil(
-    fetch(indexPage).then(function(response) {
-      return caches.open('pwabuilder-offline').then(function(cache) {
-        console.log('[PWA Builder] Cached index page during Install'+ response.url);
-        return cache.put(indexPage, response);
-      });
-  }));
+    caches.open('static').then(function(cache) {
+      cache.addAll([
+        '/',
+        '/index.html',
+        '/js/jquery.min.js',
+        '/js/particle.min.js',
+        '/js/plugin.js',
+        '/js/scripts.js',
+        '/css/animate.css',
+        '/css/plugin.css',
+        '/css/style.css',
+        '/images/bg/about-me.jpg',
+        '/images/bg/bg-home.jpg',
+        '/images/bg/call-to-action.png',
+        '/images/bg/face-icon.png',
+        '/images/bg/profile.png',
+        '/images/bg/pattern-bg.png',
+        '/images/bg/services.jpg',
+        'https://fonts.googleapis.com/css?family=Poppins:400,300,500,600,700',
+        'https://fonts.googleapis.com/css?family=Roboto:100'
+      ]);
+    })
+  );
 });
 
-//If any fetch fails, it will look for the request in the cache and serve it from there first
-self.addEventListener('fetch', function(event) {
-  var updateCache = function(request){
-    return caches.open('pwabuilder-offline').then(function (cache) {
-      return fetch(request).then(function (response) {
-        console.log('[PWA Builder] add page to offline'+response.url)
-        return cache.put(request, response);
-      });
-    });
-  };
+self.addEventListener('activate', function () {
+  console.log('SW activated');
+});
 
-  event.waitUntil(updateCache(event.request));
-
+self.addEventListener('fetch', function (event) {
   event.respondWith(
-    fetch(event.request).catch(function(error) {
-      console.log( '[PWA Builder] Network request Failed. Serving content from cache: ' + error );
-      //Check to see if you have it in the cache
-      //Return response
-      //If not in the cache, then return error page
-      return caches.open('pwabuilder-offline').then(function (cache) {
-        return cache.match(event.request).then(function (matching) {
-          var report =  !matching || matching.status == 404?Promise.reject('no-match'): matching;
-          return report
-        });
-      });
+    caches.match(event.request).then(function(res) {
+      if(res) {
+        return res;
+      }else {
+        return fetch(event.request);
+      }
     })
   );
 });
