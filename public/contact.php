@@ -1,25 +1,11 @@
 <?php
   if(isset($_POST['username'])) {
-    require 'phpmailer/PHPMailerAutoload.php';
-
-    function sendEmail($to, $from, $fromName, $fromPlace, $body) {
-      $mail = new PHPMailer();
-      $mail->SMTPDebug = 4;                         
-      $mail->isSMTP();                                     
-      $mail->Host = "smtp.sendgrid.net";
-      $mail->Port = 465; // or 587 
-      $mail->SMTPAuth = true;                   
-      $mail->Username   = "apikey"; 
-      $mail->Password   = "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";
-      $mail->SMTPSecure = 'ssl';                          
-      $mail->setFrom($from, $fromName);
-      $mail->To = $to;
-      $mail->AddAddress($to);
-      $mail->Subject = 'Hi Vikas';
-      $mail->Body = $body;
-      $mail->isHTML(true);
-
-      return $mail->send();
+    function sendEmail($to, $from, $fromName, $fromPlace, $body) {    
+      $subjet = 'Hi Vikas';
+      $headers = "From:".$from."" . "\r\n" .
+                 "Reply-To:".$from"" . "\r\n" .
+                 'X-Mailer: PHP/' . phpversion();
+      return mail($to, $subjet, $body, $headers);
     }
 
     $name = $_POST['username'];
@@ -34,7 +20,7 @@
                       <tr><td>Message</td><td>".$body."</td></tr>
                     </table>";
 
-    if(sendEmail('vicky13vikas@gmail.com', $email, $name, $place, $emailBody)) {
+    if(sendEmail('vikasfreelancer1913@gmail.com', $email, $name, $place, $emailBody)) {
       echo "Mail Send";
     }else {
       echo "Mail failed";
