@@ -114,7 +114,7 @@
         
         /* Ajaxchimp for Subscribe Form */
 		
-         $('#mc-form').ajaxChimp();
+         //$('#mc-form').ajaxChimp();
 		   
 		   
   
