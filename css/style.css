@@ -790,7 +790,7 @@ tr > td:nth-child(2) {
 /* About */
 
 .about {
-	background: #F9F9F9 url(../images/bg/about-me.png) no-repeat;
+	background: #F9F9F9 url(../images/bg/about-me.jpg) no-repeat;
   background-size: cover;
 }
 
@@ -1946,6 +1946,7 @@ ul.portfolio li.active {
     right: auto;
     bottom: 44px;
     font-size: 22px;
+    left: 22px;
   }
   /* Welcome Note Style Ends */
 	.experience {
